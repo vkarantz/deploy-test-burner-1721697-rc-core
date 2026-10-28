@@ -1,0 +1,150 @@
+{
+  "version": 1,
+  "defaults": {
+    "permissions": {
+      "group": "www-data",
+      "dir-chmod": "2775",
+      "file-chmod": "ug+rwX,o+r"
+    }
+  },
+  "repoentry": {
+    "core": {
+      "repo": "{PROJECT_BASENAME}-core",
+      "repotype": "common",
+      "repodir": {
+        "dev": "",
+        "client": ""
+      },
+      "branch": {
+        "dev": "dev",
+        "client": "prod",
+        "prod": "prod"
+      },
+      "versioned": {
+        "version-file": "CORE-VERSION"
+      },
+      "release_as": "runtime",
+      "sync-files": [
+        ".gitignore",
+        ".gitattributes"
+      ],
+      "permissions": null
+    },
+    "deploy-dev": {
+      "repo": "{PROJECT_BASENAME}-deploy-dev",
+      "repotype": "dev-only",
+      "repodir": {
+        "dev": "deploy"
+      },
+      "branch": {
+        "dev": "dev"
+      },
+      "versioned": {
+        "version-file": "DEPLOY-VERSION"
+      },
+      "release_as": "deployment",
+      "sync-files": [
+        ".gitignore",
+        ".gitattributes"
+      ],
+      "mirror-to": {
+        "target": "deploy-client",
+        "whitelist": [
+          "DEPLOY-VERSION",
+          "binclient/",
+          "bindeploy/",
+          ".gitignore",
+          ".gitattributes"
+        ]
+      }
+    },
+    "deploy-client": {
+      "repo": "{PROJECT_BASENAME}-deploy-client",
+      "repotype": "common-mirrored",
+      "repodir": {
+        "client": "deploy",
+        "dev-mirror": "client-deploy"
+      },
+      "branch": {
+        "client": "prod",
+        "dev-mirror": "prod",
+        "prod": "prod"
+      },
+      "versioned": {
+        "version-file": "DEPLOY-VERSION"
+      },
+      "release_as": "deployment"
+    },
+    "client-base": {
+      "repo": "{PROJECT_BASENAME}-client--{clientname}",
+      "repotype": "client-specific-base",
+      "repodir": {
+        "dev": "client~{clientname}",
+        "client": "client"
+      },
+      "branch": {
+        "dev": "dev",
+        "client": "prod",
+        "prod": "prod"
+      },
+      "versioned": {
+        "version-file": "CLIENT-VERSION"
+      },
+      "release_as": "runtime",
+      "sync-files": [
+        ".gitignore",
+        ".gitattributes"
+      ],
+      "orphan-branches": {
+        "client-status": {
+          "branch": "client-status/{clientname}",
+          "files": [
+            "CLIENT-STATUS.json"
+          ]
+        }
+      }
+    },
+    "client-data": {
+      "repo": "{PROJECT_BASENAME}-client--{clientname}-data",
+      "repotype": "client-specific-nested",
+      "repodir": {
+        "dev": "client~{clientname}/client-data",
+        "client": "client/client-data"
+      },
+      "branch": {
+        "dev": "dev",
+        "client": "client-data"
+      },
+      "sync-files": [
+        ".gitignore",
+        ".gitattributes"
+      ]
+    },
+    "client-setup": {
+      "repo": "{PROJECT_BASENAME}-client--{clientname}-setup",
+      "repotype": "client-specific-nested",
+      "repodir": {
+        "dev": "client~{clientname}/client-setup",
+        "client": "client/client-setup"
+      },
+      "branch": {
+        "dev": "dev",
+        "client": "prod",
+        "prod": "prod"
+      },
+      "versioned": {
+        "version-file": "SETUP-VERSION"
+      },
+      "release_as": "deployment",
+      "sync-files": [
+        ".gitignore",
+        ".gitattributes"
+      ],
+      "permissions": {
+        "group": null,
+        "dir-chmod": "700",
+        "file-chmod": "600"
+      }
+    }
+  }
+}

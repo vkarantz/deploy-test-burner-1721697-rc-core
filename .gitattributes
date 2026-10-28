@@ -1,0 +1,54 @@
+# .gitattributes — enforce LF line endings in the repository on all platforms.
+#
+# WHY: Without this, git on Windows (core.autocrlf=true) can mangle files
+# when using 'git add --renormalize', strip content from single-line files,
+# or create CRLF noise in diffs. This file is the authoritative source of
+# truth — it overrides any local core.autocrlf / core.eol settings.
+#
+# RULE: All text files are stored as LF in the repo. Windows checkouts keep
+# LF too (eol=lf) — XAMPP/PHP/Bash all handle LF fine on Windows.
+
+# ── Catch-all: auto-detect text files, store as LF, checkout as LF ──────────
+* text=auto eol=lf
+
+# ── Explicitly text: always LF ───────────────────────────────────────────────
+*.sh        text eol=lf
+*.php       text eol=lf
+*.py        text eol=lf
+*.js        text eol=lf
+*.ts        text eol=lf
+*.json      text eol=lf
+*.ini       text eol=lf
+*.html      text eol=lf
+*.css       text eol=lf
+*.md        text eol=lf
+*.txt       text eol=lf
+*.sql       text eol=lf
+*.xml       text eol=lf
+*.svg       text eol=lf
+
+# Version sentinel files (single-line, no extension — must never be mangled)
+CORE-VERSION        text eol=lf
+CLIENT-VERSION      text eol=lf
+CLIENTNAME          text eol=lf
+
+# ── Windows batch files: the one type that genuinely needs CRLF ──────────────
+*.bat       text eol=crlf
+
+# ── SSH deploy keys: always text, always LF ──────────────────────────────────
+*.key       text eol=lf
+*.pub       text eol=lf
+
+# ── Binary: never touch line endings ─────────────────────────────────────────
+*.png       binary
+*.jpg       binary
+*.jpeg      binary
+*.gif       binary
+*.pdf       binary
+*.zip       binary
+*.tar.gz    binary
+*.ico       binary
+*.woff      binary
+*.woff2     binary
+*.ttf       binary
+*.eot       binary

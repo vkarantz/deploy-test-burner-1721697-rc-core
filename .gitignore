@@ -1,0 +1,56 @@
+# Ignore individual files, wherever they are found
+# CLIENT-STATUS.json lives in client~<name>/ (gitignored) — also on orphan branch client-status/<name>.
+# client~*/ dirs are fully gitignored below, so CLIENT-STATUS.json is already covered there;
+# this entry guards any accidental placement in the root.
+CLIENT-STATUS.json
+# hot_runner.conf is a transient one-shot trigger file; it MUST NOT be committed to dev/prod.
+# It lives exclusively on the hot-runner/core and hot-runner/<clientname> orphan branches,
+# published by deploy/bindev/hot_runner_publish.sh and read remotely by actions_from_hot_runner.sh.
+actions/hot_runner.conf
+buffer*
+config.php
+*.log
+*.timestamp
+*.srvdevoverrides.*
+*.localoverrides.*
+*~wincopy.sh
+
+# GitHub Personal Access Token file saved by bootstrap_dev.sh (per machine;
+# never committed, never mirrored)
+*.PAT
+
+# Dev-directory role marker — written by deploy/bindev/bootstrap_dev.sh inside
+# deploy/ only. Ignored here too so that ONE .gitignore file can be used
+# unchanged in every repository of the ecosystem (core, deploy, clients, data).
+DEV-ROLE
+
+# Ignore entire directories
+pdfs_unsigned/*
+dir_HL7queue/*
+node_modules/
+**/__pycache__/
+log/
+
+# Client directories are separate git repos (nested, not tracked by core)
+# Matches: client/ (default on client machines), client~<name>/ (dev server mirrors)
+client*/
+
+# Client data repos are nested standalone git repos inside client/ or client~<name>/
+# They have their own .git and are not part of the parent repo.
+client-data/
+
+# Deploy directory is a separate git repo (regiforma-deploy), present on dev machines only
+# Clients never see this directory — it is not shipped in core
+deploy/
+
+
+# Special treatment of .vscode directory
+# VS Code - ignore personal settings and logs
+.vscode/settings.json
+.vscode/*.log
+# Keep shared VS Code configurations (! means exception - DO include these)
+!.vscode/launch.json
+!.vscode/tasks.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+.opencode
